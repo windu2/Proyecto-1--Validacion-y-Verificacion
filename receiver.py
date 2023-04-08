@@ -2,11 +2,12 @@
 import socket
 import logging
 import codecs
+import time
 
 
 #logging Config
 logging.basicConfig(
-    filename='example.log',
+    filename='receiver.log',
     encoding='utf-8', 
     level=logging.DEBUG,
     format='%(asctime)s %(message)s', 
@@ -25,13 +26,23 @@ s = socket.socket(socket.AF_INET,
 # connect it to server and port
 # number on local computer.
 
-connected = TRUE
-try:
-    s.connect(('127.0.0.1', port))
+connected = True
+current_time = time.time()
+connection_timeout = current_time + 10
 
-except Exception as e:
-    logging.error('Connection Error')
-    connected = FALSE
+while current_time < connection_timeout:
+    try:
+        s.connect(('127.0.0.1', port))
+        connected = True
+        break
+
+    except Exception as e:
+        connected = False
+
+    current_time = time.time() 
+
+if not connected:
+    logging.error('Connection Timeout')
 
 
 
@@ -40,13 +51,16 @@ if(connected):
     # receive message string from
     # server, at a time 1024 B
     msg = s.recv(1024)
-    logging.info('Message received')
+    
 
     # repeat as long as message
     # string are not empty
     while msg:
+        logging.info('Message received')
         final_msg = msg.decode()
+        logging.info("INPUT -> "+ final_msg)
         final_msg = codecs.decode(final_msg , 'rot_13')
+        logging.info("OUTPUT -> "+ final_msg)
         print('Received:' + final_msg)
         logging.info('Message showed')
         msg = s.recv(1024)
@@ -56,7 +70,7 @@ if(connected):
 # disconnect the client
 try:
     s.close()
-    logging.info('So should this')
+    logging.info('Disconnected Suscessfully')
 except Exception as e:
     logging.error('Disconnection Error')
 
