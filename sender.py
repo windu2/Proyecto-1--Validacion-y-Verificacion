@@ -7,10 +7,7 @@ logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s %(message)s', 
     datefmt='%d/%m/%Y %I:%M:%S %p')
-# logging.debug('this message should be in the log file')
-# logging.info("So should this")
-# logging.warning("And this, too!")
-# logging.error("And non ascii stuff, too, like Øresund and Malmö")
+
 
 # Server name and port
 host = 'local host'
@@ -35,22 +32,22 @@ s.listen(1)
        
 c, addr = s.accept()
 if (addr):
-       logging.info("Conexion exitosa")
+       logging.info("Connection succesful")
        # display client address
        print("CONNECTION FROM:", str(addr))
        # send message to the client after
        # encoding into binary string
               
        msg = str(input("Message to send: "))
-       logging.info("Mensaje original: "+msg)
+       logging.info("Original message: "+msg)
        msg = codecs.encode(msg,'rot13')
-       logging.info("Mensaje codificado: "+ msg)
+       logging.info("Codified message: "+ msg)
 
        c.send(msg.encode())
               
               # disconnect the server
        c.close()
-       logging.info("Conexion cerrada con exito")
+       logging.info("Connection closed succesfully")
 else:
        s.close()
-       logging.info("Timeout. No hubo conexión")
+       logging.info("Timeout. There was no connection")
