@@ -40,10 +40,8 @@ if (addr):
        print("CONNECTION FROM:", str(addr))
        # send message to the client after
        # encoding into binary string
-       c.send(b"HELLO, How are you ? \
-              Welcome to Akash hacking World")
               
-       msg = "Bye.............."
+       msg = str(input("Message to send: "))
        logging.info("Mensaje original: "+msg)
        msg = codecs.encode(msg,'rot13')
        logging.info("Mensaje codificado: "+ msg)
