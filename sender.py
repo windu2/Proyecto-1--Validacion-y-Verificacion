@@ -35,24 +35,22 @@ s.listen(1)
        
 c, addr = s.accept()
 if (addr):
-       logging.info("Conexion successful")
+       logging.info("Conexion exitosa")
        # display client address
        print("CONNECTION FROM:", str(addr))
        # send message to the client after
        # encoding into binary string
-       c.send(b"HELLO, How are you ? \
-              Welcome to Akash hacking World")
               
-       msg = "Bye.............."
-       logging.info("Original message: "+msg)
+       msg = str(input("Message to send: "))
+       logging.info("Mensaje original: "+msg)
        msg = codecs.encode(msg,'rot13')
-       logging.info("Message after rot13: "+ msg)
+       logging.info("Mensaje codificado: "+ msg)
 
        c.send(msg.encode())
               
               # disconnect the server
        c.close()
-       logging.info("Connection closed.")
+       logging.info("Conexion cerrada con exito")
 else:
        s.close()
-       logging.info("Timeout. There was no connection")
+       logging.info("Timeout. No hubo conexión")
